@@ -7,9 +7,24 @@
     <title>SOCKET.IO CHAT</title>
   </head>
   <body>
+    <ul id="messages"></ul>
+    <!-- <form action=""> -->
+    <input id="mess" /> <button onclick="send()">SEND</button>
+    <!-- </form> -->
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      let socket = io();
+      const socket = io();
+
+      const send = () => {
+        const text = document.querySelector("#mess").value;
+        socket.emit("chat message", text);
+      };
+      const receive = (msg) => {
+        const li = document.createElement("li");
+        li.innerText = msg;
+        document.querySelector("#messages").appendChild(li);
+      };
+      socket.on("chat message", receive);
     </script>
   </body>
 </html>
